@@ -14,10 +14,11 @@ function displayResults(responseJson) {
     $("#results-list").empty();
     for (let i = 0; i < responseJson.data.length; i++) {
         $("#results-list").append(`
-            <li><h3>${responseJson.data[i].fullName}<h3>
+            <li><b>${responseJson.data[i].fullName}</b>
             <p>${responseJson.data[i].description}</p>
             <p><a href="${responseJson.data[i].url}">${responseJson.data[i].url}</a></p></li>
             `)};
+    $("#results").removeClass("hidden");
 }
 
 function getNationalParks(query, limit=10) {
@@ -39,6 +40,9 @@ function getNationalParks(query, limit=10) {
             throw new Error(response.statusText);
         })
         .then(responseJson => displayResults(responseJson))
+        .catch(err => {
+            $('#js-error-message').text(`Oops! We ran into a problem: ${err.message}`);
+          });
 }
 
 function watchForm() {
